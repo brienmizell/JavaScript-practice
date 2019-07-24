@@ -1,6 +1,34 @@
 ///////////////////////////////////////
 // Lecture: Hoisting
 
+// functions
+calculateAge(1981);
+
+function calculateAge(year) {
+  console.log(2019 - year);
+}
+
+// retirement(1990);
+
+var retirement = function(year) {
+  console.log(65 - (2019 - year));
+};
+
+// variables
+
+console.log(age);
+var age = 23;
+console.log(age);
+
+function foo() {
+  var age = 65;
+  console.log(age);
+  git;
+}
+
+foo();
+console.log(age);
+
 ///////////////////////////////////////
 // Lecture: Scoping
 

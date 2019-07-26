@@ -52,8 +52,20 @@ document.querySelector(".btn-hold").addEventListener("click", function() {
     document.querySelector("#score-" + activePlayer).textContent =
       scores[activePlayer];
 
+    var input = document.querySelector(".final-score").value;
+
+    // Undefined, 0, null or "" are COERCED to false
+    // Anything else it COERCED to true
+    var winningScore;
+
+    if (input) {
+      winningScore = input;
+    } else {
+      winningScore = 100;
+    }
+
     // Check if player won the game
-    if (scores[activePlayer] >= 100) {
+    if (scores[activePlayer] >= winningScore) {
       console.log(
         "Player " +
           activePlayer +

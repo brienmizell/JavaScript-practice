@@ -9,56 +9,67 @@ GAME RULES:
 
 */
 
-var scores, roundScore, activePlayer, dice;
+var scores, roundScore, activePlayer, dice, gamePlaying;
 
 init();
 
 document.querySelector(".btn-roll").addEventListener("click", function() {
-  // Do something
-  // 1. Random number
-  var dice = Math.floor(Math.random() * 6) + 1;
-  // 2. Display the result
-  var diceDOM = document.querySelector(".dice");
-  diceDOM.style.display = "block";
-  diceDOM.src = "dice-" + dice + ".png";
+  if (gamePlaying) {
+    // Do something
+    // 1. Random number
+    var dice = Math.floor(Math.random() * 6) + 1;
+    // 2. Display the result
+    var diceDOM = document.querySelector(".dice");
+    diceDOM.style.display = "block";
+    diceDOM.src = "dice-" + dice + ".png";
 
-  // 3. Update the round store IF the rolled number was NOT a 1
-  if (dice !== 1) {
-    // Add score
-    roundScore += dice;
-    document.querySelector("#current-" + activePlayer).textContent = roundScore;
-  } else {
-    // Next player
-    nextPlayer();
+    // 3. Update the round store IF the rolled number was NOT a 1
+    if (dice !== 1) {
+      // Add score
+      roundScore += dice;
+      document.querySelector(
+        "#current-" + activePlayer
+      ).textContent = roundScore;
+    } else {
+      // Next player
+      nextPlayer();
+    }
   }
 });
 
 document.querySelector(".btn-hold").addEventListener("click", function() {
-  // Add CURRENT score to GLOBAL score
-  scores[activePlayer] += roundScore;
-  // Update the UI
-  document.querySelector("#score-" + activePlayer).textContent =
-    scores[activePlayer];
+  if (gamePlaying) {
+    scores[activePlayer] += roundScore;
+    // Update the UI
+    document.querySelector("#score-" + activePlayer).textContent =
+      scores[activePlayer];
 
-  // Check if player won the game
-  if (scores[activePlayer] >= 20) {
-    console.log(
-      "Player " + activePlayer + " won with " + scores[activePlayer] + " points"
-    );
-    document.querySelector("#name-" + activePlayer).textContent = "Winner";
-    document.querySelector(".dice").style.display = "none";
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.add("winner");
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.remove("active");
-  } else {
-    // Next player
-    nextPlayer();
+    // Check if player won the game
+    if (scores[activePlayer] >= 20) {
+      console.log(
+        "Player " +
+          activePlayer +
+          " won with " +
+          scores[activePlayer] +
+          " points"
+      );
+      document.querySelector("#name-" + activePlayer).textContent = "Winner";
+      document.querySelector(".dice").style.display = "none";
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.add("winner");
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.remove("active");
+      gamePlaying = false;
+    } else {
+      // Next player
+      nextPlayer();
+    }
   }
 });
 
+// Add CURRENT score to GLOBAL score
 // document.querySelector("#current-" + activePlayer).innerHTML =
 //   "<em>" + dice + "</em>";
 
@@ -86,14 +97,15 @@ function init() {
   scores = [0, 0];
   activePlayer = 0;
   roundScore = 0;
+  gamePlaying = true;
 
   document.querySelector(".dice").style.display = "none";
   document.getElementById("score-0").textContent = "0";
   document.getElementById("score-1").textContent = "0";
   document.getElementById("current-0").textContent = "0";
   document.getElementById("current-1").textContent = "0";
-  document.getElementById("name-0").textContent = "Winner";
-  document.getElementById("name-1").textContent = "Winner";
+  document.getElementById("name-0").textContent = "Player 1";
+  document.getElementById("name-1").textContent = "Player 2";
   document.querySelector(".player-0-panel").classList.remove("winner");
   document.querySelector(".player-1-panel").classList.remove("winner");
   document.querySelector(".player-0-panel").classList.remove("active");

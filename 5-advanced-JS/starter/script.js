@@ -92,37 +92,66 @@
 
 //  Passing functions as arguments
 
-var years = [1990, 1965, 1937, 2005, 1998];
+// var years = [1990, 1965, 1937, 2005, 1998];
 
-function arrayCalc(arr, fn) {
-  var arrRes = [];
-  for (var i = 0; i < arr.length; i++) {
-    arrRes.push(fn(arr[i]));
-  }
-  return arrRes;
-}
+// function arrayCalc(arr, fn) {
+//   var arrRes = [];
+//   for (var i = 0; i < arr.length; i++) {
+//     arrRes.push(fn(arr[i]));
+//   }
+//   return arrRes;
+// }
 
-function calculateAge(element) {
-  return 2019 - element;
-}
+// function calculateAge(element) {
+//   return 2019 - element;
+// }
 
-function isFullAge(element) {
-  return element >= 18;
-}
+// function isFullAge(element) {
+//   return element >= 18;
+// }
 
-function maxHeartRate(element) {
-  if (element >= 18 && element <= 81) {
-    return Math.round(206.9 - 0.67 * element);
+// function maxHeartRate(element) {
+//   if (element >= 18 && element <= 81) {
+//     return Math.round(206.9 - 0.67 * element);
+//   } else {
+//     return -1;
+//   }
+// }
+
+// var ages = arrayCalc(years, calculateAge);
+
+// var fullAges = arrayCalc(ages, isFullAge);
+
+// var rates = arrayCalc(ages, maxHeartRate);
+
+// console.log(ages);
+// console.log(rates);
+
+// Functions retuning functions
+
+function interviewQuestion(job) {
+  if (job === "designer") {
+    return function(name) {
+      console.log(name + ", can you please what UX design is?");
+    };
+  } else if (job === "teacher") {
+    return function(name) {
+      console.log("What subject do you teach, " + name + "?");
+    };
   } else {
-    return -1;
+    return function(name) {
+      console.log("Hello " + name + ", what do you do?");
+    };
   }
 }
 
-var ages = arrayCalc(years, calculateAge);
+var teacherQuestion = interviewQuestion("teacher");
+var designerQuestion = interviewQuestion("designer");
 
-var fullAges = arrayCalc(ages, isFullAge);
+teacherQuestion("John");
+designerQuestion("John");
+designerQuestion("Jane");
+designerQuestion("Mark");
+designerQuestion("Mike");
 
-var rates = arrayCalc(ages, maxHeartRate);
-
-console.log(ages);
-console.log(rates);
+interviewQuestion("teacher")("Mark");

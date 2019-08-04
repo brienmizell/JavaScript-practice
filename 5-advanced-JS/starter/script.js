@@ -218,16 +218,97 @@ retirementIceland(1981);
 //   }
 // }
 
-function interviewQuestion(job) {
-  return function(name) {
-    if (job === "designer") {
-      console.log(name + ", can you please what UX design is?");
-    } else if (job === "teacher") {
-      console.log("What subject do you teach, " + name + "?");
-    } else {
-      console.log("Hello " + name + ", what do you do?");
+// function interviewQuestion(job) {
+//   return function(name) {
+//     if (job === "designer") {
+//       console.log(name + ", can you please what UX design is?");
+//     } else if (job === "teacher") {
+//       console.log("What subject do you teach, " + name + "?");
+//     } else {
+//       console.log("Hello " + name + ", what do you do?");
+//     }
+//   };
+// }
+
+// interviewQuestion("teacher")("John");
+
+////////////////////////////////////////////////////////////////////////////
+// Bind, call and apply
+
+var john = {
+  name: "John",
+  age: 26,
+  job: "teacher",
+  presentation: function(style, timeOfDay) {
+    if (style === "formal") {
+      console.log(
+        "good " +
+          timeOfDay +
+          ", Ladies and gentleman! I'm " +
+          this.name +
+          ", I'm a " +
+          this.job +
+          " and I'm " +
+          this.age +
+          " years old."
+      );
+    } else if (style === "friendly") {
+      console.log(
+        "Hey, what's up? I'm " +
+          this.name +
+          ", I'm a " +
+          this.job +
+          " and I'm " +
+          this.age +
+          " years old. Have a nice " +
+          timeOfDay +
+          "."
+      );
     }
-  };
+  }
+};
+
+var emily = {
+  name: "Emily",
+  age: 35,
+  job: "designer"
+};
+
+john.presentation("formal", "morning");
+
+john.presentation.call(emily, "friendly", "afternoon");
+
+// john.presentation.apply(emily, ['friendly', 'afternoon'])
+
+var johnFriendly = john.presentation.bind(john, "friendly");
+
+johnFriendly("morning");
+johnFriendly("night");
+
+var emilyFormal = john.presentation.bind(emily, "formal");
+
+emilyFormal("afternoon");
+
+var years = [1990, 1965, 1937, 2005, 1998];
+
+function arrayCalc(arr, fn) {
+  var arrRes = [];
+  for (var i = 0; i < arr.length; i++) {
+    arrRes.push(fn(arr[i]));
+  }
+  return arrRes;
 }
 
-interviewQuestion("teacher")("John");
+function calculateAge(element) {
+  return 2019 - element;
+}
+
+function isFullAge(limit, element) {
+  return element >= limit;
+}
+
+var ages = arrayCalc(years, calculateAge);
+
+var fullJapan = arrayCalc(ages, isFullAge.bind(this, 20));
+console.log(ages);
+console.log(fullJapan);

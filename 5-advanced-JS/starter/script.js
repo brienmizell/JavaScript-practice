@@ -184,21 +184,21 @@
 ////////////////////////////////////////////////////////////////////////////
 // Closures
 
-function retirement(retirementAge) {
-  var a = " years lefts until retirement.";
-  return function(yearOfBirth) {
-    var age = 2019 - yearOfBirth;
-    console.log(retirementAge - age + a);
-  };
-}
+// function retirement(retirementAge) {
+//   var a = " years lefts until retirement.";
+//   return function(yearOfBirth) {
+//     var age = 2019 - yearOfBirth;
+//     console.log(retirementAge - age + a);
+//   };
+// }
 
-var retirementUS = retirement(66);
-var retirementGermany = retirement(65);
-var retirementIceland = retirement(67);
+// var retirementUS = retirement(66);
+// var retirementGermany = retirement(65);
+// var retirementIceland = retirement(67);
 
-retirementGermany(1981);
-retirementUS(1981);
-retirementIceland(1981);
+// retirementGermany(1981);
+// retirementUS(1981);
+// retirementIceland(1981);
 
 // retirement(66)(1981);
 
@@ -346,3 +346,64 @@ c) correct answer (I would use a number for this)
 
 11. Display the score in the console. Use yet another method for this.
 */
+
+(function() {
+  function Question(question, answers, correct) {
+    this.question = question;
+    this.answers = answers;
+    this.correct = correct;
+  }
+
+  Question.prototype.displayQuestion = function() {
+    console.log(this.question);
+
+    for (var i = 0; i < this.answers.length; i++) {
+      console.log(i + ": " + this.answers[i]);
+    }
+  };
+
+  Question.prototype.checkAnswer = function(ans) {
+    if (ans === this.correct) {
+      console.log("Correct answer!");
+    } else {
+      console.log("Wrong answer, try again.");
+    }
+  };
+
+  var q1 = new Question(
+    "Is JavaScrip the coolest programming language in the universe?",
+    ["Yes", "No", "Maybe"],
+    0
+  );
+
+  var q2 = new Question(
+    "What MLS club invented soccer and is the best MLS club ever?",
+    [
+      "Orlando Shitty SC",
+      "New Jersey Energy Drinks",
+      "D.C. United",
+      "Atlanta United"
+    ],
+    3
+  );
+
+  var q3 = new Question(
+    "Which is the greatest college football team of all time?",
+    [
+      "University of Alabamuuuuh",
+      "University of Georgia",
+      "Auburn Kitty Cats",
+      "North Avenue Trade School wasps"
+    ],
+    1
+  );
+
+  var questions = [q1, q2, q3];
+
+  var n = Math.floor(Math.random() * questions.length);
+
+  questions[n].displayQuestion();
+
+  var answer = parseInt(prompt("Please Select the correct answer."));
+  questions[n].checkAnswer(answer);
+})();

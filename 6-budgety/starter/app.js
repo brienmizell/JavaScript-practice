@@ -16,7 +16,7 @@ var budgetController = (function() {
   var calculateTotal = function(type) {
     var sum = 0;
     data.allItems[type].forEach(function(cur) {
-      sum += curr.value;
+      sum += cur.value;
     });
     data.totals[type] = sum;
   };
@@ -51,9 +51,9 @@ var budgetController = (function() {
       }
 
       // Create new item based on 'inc' or 'exp' type
-      if (type === "expense") {
+      if (type === "exp") {
         newItem = new Expense(ID, des, val);
-      } else if (type === "income") {
+      } else if (type === "inc") {
         newItem = new Income(ID, des, val);
       }
 
@@ -135,7 +135,7 @@ var UIController = (function() {
       // Replace the placeholder text with some actual data
       newHtml = html.replace("%id%", obj.id);
       newHtml = newHtml.replace("%description%", obj.description);
-      newHtml = newHtml.replace("%value%", formatNumber(obj.value, type));
+      newHtml = newHtml.replace("%value%", obj.value, type);
 
       // Insert the HTML into the DOM
       document.querySelector(element).insertAdjacentHTML("beforeend", newHtml);
@@ -149,14 +149,14 @@ var UIController = (function() {
 
       fieldsArray = Array.prototype.slice.call(fields);
 
-      fieldsArray.foreach(function(current, index, array) {
+      fieldsArray.forEach(function(current, index, array) {
         current.value = "";
       });
       fieldsArray[0].focus();
     },
     displayBudget: function(obj) {
       document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
-      document.querySelector(DOMstrings.incomeLabel).totalInc = obj.income;
+      document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
       document.querySelector(DOMstrings.expensesLabel).textContent =
         obj.totalExp;
       if (obj.percentage > 0) {
